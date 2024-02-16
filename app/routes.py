@@ -12,6 +12,9 @@ def home():
 
 @rts.route('/register', methods=['GET', 'POST'])
 def register():
+    if session.get('user_id'):
+        flash('You are already logged in!')
+        return redirect('/')
     form = AddUserForm()
     if form.validate_on_submit():
         username=form.username.data
@@ -30,7 +33,7 @@ def register():
     
 @rts.route('/login', methods=['GET','POST'])
 def login():
-    if session['user_id']:
+    if session.get('user_id'):
         user = User.query.filter_by(id=session['user_id']).first()
         flash(f'You are currently logged in as {user.username}')
         return redirect('/')
@@ -67,7 +70,7 @@ def user_info(username):
 @rts.route('/users/<username>/delete', methods=['POST'])
 def delete_user(username):
     # Is a user logged in?
-    if session['user_id']:
+    if session.get('user_id'):
         # Get the user by id
         user = User.query.filter_by(username=username).first()
         # TODO: Remove feedback
@@ -79,14 +82,14 @@ def delete_user(username):
 @rts.route('/users/<username>/feedback/add', methods=['GET','POST'])
 def add_feedback(username):
     # Is a user logged in?
-    if session['user_id']:
+    if session.get('user_id'):
         # Get the user by id
         user = User.query.filter_by(id=session['user_id']).first()
         form = AddFeedbackForm()
         if form.validate_on_submit():
             title = form.title.data
             content = form.content.data
-            # Keep this?
+            # Keep this????
             username = username
             feedback = Feedback(title=title,content=content,username=username)
             db.session.add(feedback)
@@ -101,7 +104,7 @@ def update_feedback(feedback_id):
         feedback = Feedback.query.get(feedback_id).first()
         feedback.title = form.title.data
         feedback.content = form.content.data
-        # Update username?
+        # Update username???????
         db.session.add(feedback)
         db.session.commit()
     else:
