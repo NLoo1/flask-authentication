@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %} {{user.username}} {% endblock %}
+
+{% block content %}
+    <div class="container bg-light mt-3 border">
+        {% for msg in get_flashed_messages() %}
+    <div>{{ msg }}</div>
+    {% endfor %}
+
+    <h1>Welcome, {{user.username}}</h1>
+    <div class="container">
+        <p><b>First name: </b> {{user.first_name}}</p>
+        <p><b>Last name: </b> {{user.last_name}}</p>
+    </div>
+
+    <div class="container border bg-white mb-3">
+        <h2>All feedback:</h2>
+        {% for feedback in feedbacks %}
+            <div class="list-group">
+                <p class="list-group-item"><b>Title: </b> {{feedback.title}}</p>
+                <p class="list-group-item"><b>Content: </b> {{feedback.content}}</p>
+            </div>
+            <form action="/feedback/{{feedback.id}}/delete" method='POST'>
+                <a href="/feedback/{{feedback.id}}/update" class="btn btn-info mb-3">Update post?</a>
+                <button type="submit" class="btn btn-danger mb-3">Delete post?</button>
+            </form>
+            
+
+            
+        {% endfor %}
+    </div>
+
+    <a href="/users/{{user.username}}/feedback/add" class="btn btn-primary mb-3">Add feedback?</a>
+    <a href="/" class="btn btn-primary mb-3">Back</a>
+    {% if session.user_id %}
+        <a href="/logout" class="btn btn-danger mb-3">Logout</a>
+    {% endif %}
+    </div>
+
+
+{% endblock %}

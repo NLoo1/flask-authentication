@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %} Register user {% endblock %}
+{% block title %} Feedback {% endblock %}
 
 {% block content %}
     <div class="container bg-light mt-3 border">
@@ -8,7 +8,7 @@
     <div>{{ msg }}</div>
     {% endfor %}
 
-    <h1>Register user</h1>
+    <h1>Update feedback</h1>
     <div class="row align-items-start">
         <div class="col-2">
             <form id="user-add-form" method="POST">
@@ -19,7 +19,8 @@
             
                 <p>
                     {{ field.label }}
-                    {{ field }}
+                    {% set feedback_value = feedback[field.name] if feedback is defined else None %}
+                    {{ field(value=feedback_value) }}
             
                     {% for error in field.errors %}
                     {{ error }}
@@ -29,7 +30,7 @@
                 {% endfor %}
             
                 <button type="submit" class="btn btn-primary mb-3">Submit</button>
-                <a href="/login" class="btn btn-primary mb-3">Login</a>
+                <a href="/users/{{user.username}}" class="btn btn-primary mb-3">Back</a>
             </form>
         </div>
         

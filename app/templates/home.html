@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Home {% endblock %}
+
+{% block content %}
+
+<div class="container bg-light mt-3 border">
+    {% for msg in get_flashed_messages() %}
+<div>{{ msg }}</div>
+{% endfor %}
+
+<div class="container">
+    <!-- <h1>This is where the user should be redirected for now</h1> -->
+
+    <h1>Welcome {{user.username}}</h1><hr>
+
+    <h2>All feedback</h2>
+    <div class="container">
+        <div class="list-group">
+            {% for fb in feedback %}
+                <p class="list-group-item"><b>Title: </b>{{fb.title}}</p>
+                <p class="list-group-item"><b>Content: </b>{{fb.content}}</p>
+                <p class="list-group-item"><b>By: </b>{{fb.username}}</p>
+                <br>
+            {% endfor %}
+        </div>
+    </div>
+    <a href="/logout" class="btn btn-danger mb-3">Logout</a>
+    <a href="/users/{{user.username}}" class="btn btn-info mb-3">Go to profile</a>
+
+</div>
+
+{% endblock %}
