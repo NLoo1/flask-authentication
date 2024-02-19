@@ -2,7 +2,7 @@ bcrypt==4.1.2
 blinker==1.6.3
 click==8.1.7
 colorama==0.4.6
-Flask==2.2.5
+Flask==2.0.3
 Flask-Bcrypt==1.0.1
 Flask-DebugToolbar==0.14.1
 Flask-SQLAlchemy==3.0.5
