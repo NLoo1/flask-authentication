@@ -36,6 +36,11 @@
     {% if session.user_id %}
         <a href="/logout" class="btn btn-danger mb-3">Logout</a>
     {% endif %}
+    {% if session.user_id == user.id %}
+        <form action="/users/{{user.username}}/delete" method='POST'>
+            <button type="submit" class="btn btn-danger mb-3">Delete user</button>
+        </form>
+    {% endif %}
     </div>
 
 

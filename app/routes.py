@@ -57,8 +57,7 @@ def login():
             session['user_id'] = user.id
             return redirect('/')
         else:
-            form.username.errors['Invalid credentials']
-            # flash('Invalid credentials')
+            flash('Invalid credentials')
             return render_template('login.html', form=form)
     # Otherwise, render template
     else: 
