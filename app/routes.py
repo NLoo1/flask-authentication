@@ -8,7 +8,7 @@ rts = Blueprint('rts', __name__)
 
 @rts.route("/", methods=['GET'])
 def home():
-    if session.get('user_id', False):
+    if session.get('user_id'):
         user = User.query.filter_by(id=session.get('user_id')).first()
         feedback = Feedback.query.all()
         return render_template('home.html', feedback=feedback, user=user)
@@ -71,12 +71,20 @@ def logout():
 
 @rts.route('/users/<username>', methods=['GET'])
 def user_info(username):
-    user = User.query.filter_by(username=username).first()
-    feedbacks = Feedback.query.filter_by(username=username).all()
-    if user:
-        return render_template('user.html', user=user, feedbacks=feedbacks)
-    else: 
-        flash("Cannot find this user!")
+    if session.get('user_id'):
+        user = User.query.filter_by(username=username).first()
+        feedbacks = Feedback.query.filter_by(username=username).all()
+        if user:
+            if user.id == session.get('user_id'):
+                return render_template('user.html', user=user, feedbacks=feedbacks)
+            else:
+                flash('Unauthorized')
+                return redirect('/')
+        else: 
+            flash("Cannot find this user!")
+            return redirect('/')
+    else:
+        flash('Please login')
         return redirect('/')
     
 @rts.route('/users/<username>/delete', methods=['POST'])

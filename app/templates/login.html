@@ -30,6 +30,10 @@
             
                 <button type="submit" class="btn btn-primary mb-3">Submit</button>
             </form>
+
+            {% if not session.user_id %}
+            <a href="/register" class="btn btn-danger mb-3">Register</a>
+            {% endif %}
         </div>
         
     </div>
